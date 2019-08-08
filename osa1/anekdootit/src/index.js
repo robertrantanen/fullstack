@@ -18,7 +18,7 @@ const Random = (props) => {
   }
 
 const App = (props) => { 
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(Random(props.anecdotes.length))
   const [p, setP] = useState(0)
 
   const generateRandom = () => {
@@ -32,16 +32,25 @@ const App = (props) => {
     setP(points[selected])
   }
 
+  const Largest = () => {
+    const largest = Math.max(...points)
+    return points.indexOf(largest)
+  }
+
   return (
     <div>
-      <h3>{props.anecdotes[selected]}</h3>
-      <h4>has {p} votes</h4>
+      <h3>Anecdote of the day</h3>
+      <p>{props.anecdotes[selected]}</p>
+      <p>has {p} votes</p>
       <button onClick={() => generateRandom()}>
         next anecdote
       </button>
       <button onClick={() => voteUp()}>
         vote
       </button>
+      <h3>Anecdote with most votes</h3>
+      <p>{props.anecdotes[Largest()]}</p>
+      <p>has {points[Largest()]} votes</p>
     </div>
   )
 }
