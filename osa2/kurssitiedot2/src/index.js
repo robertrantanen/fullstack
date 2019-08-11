@@ -6,6 +6,7 @@ const Course = ({course}) => {
     <div>
       <Header course={course.name} />
       <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   )
 }
@@ -14,15 +15,15 @@ const Header = ({course}) => {
   return <h1>{course}</h1> 
 }
 
-const Total = (props) => {
-  const total = props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises
+const Total = ({parts}) => {
+  const total = parts.reduce((sum, part) => sum + part.exercises, 0)
 
-  return <p>yhteensä {total} tehtävää</p>
+  return <b>total of {total} exercises</b>
 }
   
 
 const Part = ({part}) =>
-  <p>{part.name} {part.exercises}</p>
+  <p key={part.id}> {part.name} {part.exercises}</p>
 
 const Content = ({parts}) => (
   parts.map(part => Part(part={part}))
@@ -46,7 +47,12 @@ const App = () => {
             name: 'State of a component',
             exercises: 14,
             id: 3
-          }          
+          }, 
+          {
+            name: 'testi',
+            exercises: 12,
+            id: 4
+          }           
         ]
       }
     
