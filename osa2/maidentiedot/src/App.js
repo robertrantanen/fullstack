@@ -40,7 +40,8 @@ function App() {
     if (filteredCountries.length > 10) {
       return <p>Too many matches, specify another filter</p>
     } else {
-      return filteredCountries.map(country => <p key={country.name}>{country.name} </p>)  
+      return filteredCountries.map(country => <p key={country.name}>{country.name}
+      <button onClick={() => setNewFilter(country.name)}> show </button> </p>)  
     }
   }
 
@@ -51,6 +52,7 @@ function App() {
     value={newFilter} 
     onChange={handleFilterChange}
     />
+    <button onClick={() => setNewFilter('')}> clear </button> 
     {listCountries()}
     </div>
   )
