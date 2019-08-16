@@ -36,7 +36,8 @@ const PersonForm = (props) => {
 
 const ListPersons = (props) => {
     const filteredNames = props.persons.filter(person => person.name.toLowerCase().includes(props.newFilter.toLowerCase()))
-    return filteredNames.map(person => <p key={person.name}>{person.name} {person.number}</p>)  
+    return filteredNames.map(person => <p key={person.name}>{person.name} {person.number}
+    <button onClick={() => props.deletePerson(person.id)}>delete</button></p>)  
 }
 
 
@@ -66,6 +67,15 @@ const App = () => {
   const handleFilterChange = (event) => {
     setNewFilter(event.target.value)
   }
+
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id)
+    if (window.confirm("Delete " + person.name +" ?")) { 
+      personService.deletePerson(id)
+      setPersons(persons.filter(p => p.id !== id))
+    }
+  }
+
 
   const addName = (event) => {
     event.preventDefault()
@@ -99,7 +109,7 @@ const App = () => {
       <PersonForm newName={newName} newNumber={newNumber} handleNameChange={(event) => handleNameChange(event)} 
       handleNumberChange={(event) => handleNumberChange(event)} addName={(event) => addName(event)}/>
       <h2>Numbers</h2>
-      <ListPersons persons = {persons} newFilter={newFilter} />
+      <ListPersons persons = {persons} newFilter={newFilter} deletePerson={(id) => deletePerson(id)} />
     </div>
   )
 
