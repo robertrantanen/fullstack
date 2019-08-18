@@ -14,6 +14,19 @@ const Notification = ({ message }) => {
   )
 }
 
+const ErrorNotification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )
+}
+
+
 const Filter = (props) => {
   return(
     <div>
@@ -60,6 +73,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
   const [ message, setMessage ] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -100,7 +114,20 @@ const App = () => {
     personService
       .update(id, changedPerson)
         .then(returnedPerson => {
+          setMessage("Changed the number of " + newName)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
           setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+        })
+        .catch(error => {
+          setErrorMessage(
+            "Information of " + newName + " has already been removed from server"
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+          setPersons(persons.filter(p => p.id !== id))
         })
     setNewName('') 
     setNewNumber('')
@@ -120,10 +147,6 @@ const App = () => {
       const person = persons.find(p => p.name === newName)
       if (window.confirm(person.name + " is already added to phonebook, replace the old number with a new one?")) { 
         updateNumber(person)
-        setMessage("Changed the number of " + newName)
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
       }
     } else {
       personService
@@ -146,6 +169,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={message} />
+      <ErrorNotification message={errorMessage} />
       <Filter newFilter={newFilter} handleFilterChange={(event) => handleFilterChange(event)} />
       <h2>Add a new</h2>
       <PersonForm newName={newName} newNumber={newNumber} handleNameChange={(event) => handleNameChange(event)} 
