@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import personService from './services/persons'
+import './index.css'
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="message">
+      {message}
+    </div>
+  )
+}
 
 const Filter = (props) => {
   return(
@@ -46,6 +59,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [ message, setMessage ] = useState(null)
 
   useEffect(() => {
     personService
@@ -73,6 +87,10 @@ const App = () => {
     if (window.confirm("Delete " + person.name +" ?")) { 
       personService.deletePerson(id)
       setPersons(persons.filter(p => p.id !== id))
+      setMessage("Deleted " + person.name)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -102,6 +120,10 @@ const App = () => {
       const person = persons.find(p => p.name === newName)
       if (window.confirm(person.name + " is already added to phonebook, replace the old number with a new one?")) { 
         updateNumber(person)
+        setMessage("Changed the number of " + newName)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       }
     } else {
       personService
@@ -111,6 +133,10 @@ const App = () => {
       setNewName('') 
       setNewNumber('')
       })
+      setMessage("Added " + newName)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
 
   }
@@ -119,6 +145,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter newFilter={newFilter} handleFilterChange={(event) => handleFilterChange(event)} />
       <h2>Add a new</h2>
       <PersonForm newName={newName} newNumber={newNumber} handleNameChange={(event) => handleNameChange(event)} 
