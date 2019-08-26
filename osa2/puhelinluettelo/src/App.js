@@ -155,11 +155,17 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
       setNewName('') 
       setNewNumber('')
-      })
       setMessage("Added " + newName)
       setTimeout(() => {
         setMessage(null)
       }, 5000)
+      })
+      .catch(error => {
+        setErrorMessage("too short name or number")
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
     }
 
   }
