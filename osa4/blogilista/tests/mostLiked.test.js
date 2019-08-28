@@ -68,15 +68,27 @@ describe('most likes', () => {
   
     test('when list has only one blog', () => {
       const result = listHelper.mostLikes(listWithOneBlog)
-      expect(result).toEqual('Go To Statement Considered Harmful')
+      expect(result).toEqual({
+        title: 'Go To Statement Considered Harmful',
+        author: 'Edsger W. Dijkstra',
+        likes: 5
+      })
     })
     test('when list has multiple blogs', () => {
       const result = listHelper.mostLikes(blogs)
-      expect(result).toEqual("Canonical string reduction")
+      expect(result).toEqual({
+        title: "Canonical string reduction",
+        author: "Edsger W. Dijkstra",
+        likes: 12
+      })
     })
     test('when empty list', () => {
       const result = listHelper.mostLikes(emptyList)
-      expect(result).toEqual(undefined)
+      expect(result).toEqual({
+        title: undefined,
+        author: undefined,
+        likes: undefined
+      })
     })
 
 
