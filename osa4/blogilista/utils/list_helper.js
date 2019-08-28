@@ -43,10 +43,38 @@ const mostBlogs = (blogs) => {
   return blogObject
 }
 
+const mostTotalLikes = (blogs) => {
+  var counts = {}
+  var compare = 0
+  var mostFrequent
+
+  for(var i = 0; i < blogs.length; i++){
+    var author = blogs[i].author;
+    var likes = blogs[i].likes;
+ 
+    if(counts[author] === undefined){
+       counts[author] = likes; 
+    }else{    
+       counts[author] += likes; 
+    }
+    if(counts[author] > compare){ 
+       compare = counts[author]; 
+       mostFrequent = author; 
+    }
+  }
+  const blogObject = {
+    author: mostFrequent,
+    likes: compare
+  }
+
+  return blogObject
+}
+
 
 module.exports = {
   dummy,
   totalLikes,
   mostLikes,
   mostBlogs,
+  mostTotalLikes
 }
