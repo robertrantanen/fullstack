@@ -77,6 +77,26 @@ test('a valid blog can be added ', async () => {
   )
 })
 
+test('a blog with undefined likes has 0 likes', async () => {
+  const newBlog = {
+    title: "Canonical string reduction",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+
+  const addedBlog = response.body.find(blog => blog.title === "Canonical string reduction")
+
+  expect(addedBlog.likes).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
