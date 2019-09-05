@@ -2,6 +2,19 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login' 
+import './index.css'
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="message">
+      {message}
+    </div>
+  )
+}
 
 
 function App() {
@@ -12,6 +25,7 @@ function App() {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
+  const [Message, setMessage] = useState(null)
 
   useEffect(() => {
     blogService
@@ -46,6 +60,13 @@ function App() {
         setAuthor('')
         setUrl('')
       })
+
+    setMessage(
+      `a new blog '${blogObject.title}' by '${blogObject.author}' added`
+    )
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
   }
 
   const handleTitleChange = (event) => {
@@ -75,7 +96,10 @@ function App() {
       setUsername('')
       setPassword('')
     } catch (exception) {
-
+      setMessage('wrong username or password')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -133,6 +157,10 @@ function App() {
   const logoutFunction = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+    setMessage('logged out')
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
   }
 
 
@@ -140,6 +168,7 @@ function App() {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={Message}/>
         {loginForm()}
       </div>
     )
@@ -148,6 +177,7 @@ function App() {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={Message}/>
       <p>{user.name} logged in <button onClick={() => logoutFunction()}>logout</button></p>
       <h2>create new</h2>
       {blogForm()}
