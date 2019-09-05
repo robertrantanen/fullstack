@@ -6,6 +6,9 @@ import loginService from './services/login'
 
 function App() {
   const [blogs, setBlogs] = useState([])
+  const [newTitle, setTitle] = useState('') 
+  const [newAuthor, setAuthor] = useState('') 
+  const [newUrl, setUrl] = useState('') 
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
@@ -26,6 +29,36 @@ function App() {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const addBlog = (event) => {
+    event.preventDefault()
+    const blogObject = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+    }
+  
+    blogService
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+      })
+  }
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  }
+
+  const handleAuthorChange = (event) => {
+    setAuthor(event.target.value)
+  }
+
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value)
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -70,6 +103,33 @@ function App() {
     </form>      
   )
 
+  const blogForm = () => (
+    <form onSubmit={addBlog}>
+      <div>
+      title:
+      <input
+        value={newTitle}
+        onChange={handleTitleChange}
+      />
+      </div>
+      <div>
+      author:
+      <input
+        value={newAuthor}
+        onChange={handleAuthorChange}
+      />
+      </div>
+      <div>
+      url:
+      <input
+        value={newUrl}
+        onChange={handleUrlChange}
+      />
+      </div>
+      <button type="submit">create</button>
+    </form>  
+  )
+
   const logoutFunction = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
@@ -89,6 +149,8 @@ function App() {
     <div>
       <h2>blogs</h2>
       <p>{user.name} logged in <button onClick={() => logoutFunction()}>logout</button></p>
+      <h2>create new</h2>
+      {blogForm()}
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
