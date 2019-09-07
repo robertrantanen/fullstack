@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login' 
 import './index.css'
@@ -16,7 +17,6 @@ const Notification = ({ message }) => {
   )
 }
 
-
 function App() {
   const [blogs, setBlogs] = useState([])
   const [newTitle, setTitle] = useState('') 
@@ -26,6 +26,7 @@ function App() {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [Message, setMessage] = useState(null)
+  const [createVisible, setCreateVisible] = useState(false)
 
   useEffect(() => {
     blogService
@@ -127,6 +128,31 @@ function App() {
     </form>      
   )
 
+  const blogForm = () => {
+    const hideWhenVisible = { display: createVisible ? 'none' : '' }
+    const showWhenVisible = { display: createVisible ? '' : 'none' }
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setCreateVisible(true)}>create a new blog</button>
+        </div>
+        <div style={showWhenVisible}>
+          <BlogForm
+            addBlog={(event) => addBlog(event)}
+            newTitle={newTitle}
+            newAuthor={newAuthor}
+            newUrl={newUrl}
+            handleTitleChange={(event) => handleTitleChange(event)}
+            handleAuthorChange={(event) => handleAuthorChange(event)}
+            handleUrlChange={(event) => handleUrlChange(event)}
+          />
+          <button onClick={() => setCreateVisible(false)}>cancel</button>
+        </div>
+      </div>
+    )
+  }
+/*
   const blogForm = () => (
     <form onSubmit={addBlog}>
       <div>
@@ -153,7 +179,7 @@ function App() {
       <button type="submit">create</button>
     </form>  
   )
-
+*/
   const logoutFunction = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
@@ -179,7 +205,6 @@ function App() {
       <h2>blogs</h2>
       <Notification message={Message}/>
       <p>{user.name} logged in <button onClick={() => logoutFunction()}>logout</button></p>
-      <h2>create new</h2>
       {blogForm()}
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
