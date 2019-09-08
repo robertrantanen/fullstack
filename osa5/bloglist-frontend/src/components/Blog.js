@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, likeBlog }) => {
   const [blogVisible, setBlogVisible] = useState(false)
 
   const blogStyle = {
@@ -22,7 +22,7 @@ const Blog = ({ blog }) => {
       <div style={showWhenVisible} onClick={() => setBlogVisible(false)}>
         <p>{blog.title} {blog.author}</p>
         <p>{blog.url}</p>
-        <p>{blog.likes} likes <button onClick={() => console.log("click")}>like</button></p>
+        <p>{blog.likes} likes <button onClick={likeBlog}>like</button></p>
         <p>added by {blog.user.name}</p>
       </div>
     </div>
