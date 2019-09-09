@@ -15,7 +15,7 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const showWhenVisible = { display: blogVisible ? '' : 'none' }
 
   return (
-    <div style={blogStyle}> 
+    <div style={blogStyle}>
       <div style={hideWhenVisible} onClick={() => setBlogVisible(true)}>
         {blog.title} {blog.author}
       </div>
@@ -27,6 +27,6 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
         <p><button onClick={deleteBlog}>delete</button></p>
       </div>
     </div>
-)}
+  )}
 
 export default Blog

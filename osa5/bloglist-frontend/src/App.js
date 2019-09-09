@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
-import loginService from './services/login' 
+import loginService from './services/login'
 import './index.css'
 
 const Notification = ({ message }) => {
@@ -19,11 +19,11 @@ const Notification = ({ message }) => {
 
 function App() {
   const [blogs, setBlogs] = useState([])
-  const [newTitle, setTitle] = useState('') 
-  const [newAuthor, setAuthor] = useState('') 
-  const [newUrl, setUrl] = useState('') 
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [newTitle, setTitle] = useState('')
+  const [newAuthor, setAuthor] = useState('')
+  const [newUrl, setUrl] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [Message, setMessage] = useState(null)
   const [createVisible, setCreateVisible] = useState(false)
@@ -33,7 +33,7 @@ function App() {
       .getAll()
       .then(initialBlogs => {
         setBlogs(initialBlogs.sort(function(a, b) {
-          return b.likes - a.likes;
+          return b.likes - a.likes
         }))
       })
   }, [])
@@ -54,7 +54,7 @@ function App() {
       author: newAuthor,
       url: newUrl,
     }
-  
+
     blogService
       .create(blogObject)
       .then(returnedBlog => {
@@ -93,7 +93,7 @@ function App() {
 
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -110,7 +110,7 @@ function App() {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -119,7 +119,7 @@ function App() {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -127,7 +127,7 @@ function App() {
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>
   )
 
   const blogForm = () => {
@@ -154,34 +154,7 @@ function App() {
       </div>
     )
   }
-/*
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <div>
-      title:
-      <input
-        value={newTitle}
-        onChange={handleTitleChange}
-      />
-      </div>
-      <div>
-      author:
-      <input
-        value={newAuthor}
-        onChange={handleAuthorChange}
-      />
-      </div>
-      <div>
-      url:
-      <input
-        value={newUrl}
-        onChange={handleUrlChange}
-      />
-      </div>
-      <button type="submit">create</button>
-    </form>  
-  )
-*/
+
 
   const likeBlog = (id) => {
     const blog = blogs.find(n => n.id === id)
@@ -191,14 +164,14 @@ function App() {
       .update(id, changedBlog)
       .then(returnedBlog => {
         setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog).sort(function(a, b) {
-          return b.likes - a.likes;
+          return b.likes - a.likes
         }))
       })
   }
 
   const deleteBlog = (id) => {
     const blog = blogs.find(b => b.id === id)
-    const ok = window.confirm(`Delete ${blog.title}`)
+    const ok = window.confirm(`Delete ${blog.title} by ${blog.author}`)
     if (ok) {
       blogService
         .remove(id)
@@ -242,4 +215,4 @@ function App() {
   )
 }
 
-export default App;
+export default App
