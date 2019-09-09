@@ -14,6 +14,14 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const hideWhenVisible = { display: blogVisible ? 'none' : '' }
   const showWhenVisible = { display: blogVisible ? '' : 'none' }
 
+  const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
+
+  const deleteButton = () => {
+    if (user.username === blog.user.username) {
+      return <button onClick={deleteBlog}>delete</button>
+    }
+  }
+
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible} onClick={() => setBlogVisible(true)}>
@@ -24,7 +32,7 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
         <p>{blog.url}</p>
         <p>{blog.likes} likes <button onClick={likeBlog}>like</button></p>
         <p>added by {blog.user.name}</p>
-        <p><button onClick={deleteBlog}>delete</button></p>
+        <p>{deleteButton()}</p>
       </div>
     </div>
   )}
