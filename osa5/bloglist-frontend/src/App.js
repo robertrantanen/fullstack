@@ -32,7 +32,9 @@ function App() {
     blogService
       .getAll()
       .then(initialBlogs => {
-        setBlogs(initialBlogs)
+        setBlogs(initialBlogs.sort(function(a, b) {
+          return b.likes - a.likes;
+        }))
       })
   }, [])
 
@@ -188,7 +190,9 @@ function App() {
     blogService
       .update(id, changedBlog)
       .then(returnedBlog => {
-        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog).sort(function(a, b) {
+          return b.likes - a.likes;
+        }))
       })
   }
 
