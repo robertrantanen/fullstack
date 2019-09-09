@@ -196,6 +196,18 @@ function App() {
       })
   }
 
+  const deleteBlog = (id) => {
+    const blog = blogs.find(b => b.id === id)
+    const ok = window.confirm(`Delete ${blog.title}`)
+    if (ok) {
+      blogService
+        .remove(id)
+        .then(() => {
+          setBlogs(blogs.filter(b => b.id !== id))
+        })
+    }
+  }
+
 
   const logoutFunction = () => {
     window.localStorage.removeItem('loggedBlogappUser')
@@ -224,7 +236,7 @@ function App() {
       <p>{user.name} logged in <button onClick={() => logoutFunction()}>logout</button></p>
       {blogForm()}
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} likeBlog={() => likeBlog(blog.id)} />
+        <Blog key={blog.id} blog={blog} likeBlog={() => likeBlog(blog.id)} deleteBlog={() => deleteBlog(blog.id)} />
       )}
     </div>
   )
