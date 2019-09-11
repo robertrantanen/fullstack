@@ -209,7 +209,7 @@ function App() {
       <p>{user.name} logged in <button onClick={() => logoutFunction()}>logout</button></p>
       {blogForm()}
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} likeBlog={() => likeBlog(blog.id)} deleteBlog={() => deleteBlog(blog.id)} />
+        <Blog key={blog.id} blog={blog} user={user} likeBlog={() => likeBlog(blog.id)} deleteBlog={() => deleteBlog(blog.id)} />
       )}
     </div>
   )

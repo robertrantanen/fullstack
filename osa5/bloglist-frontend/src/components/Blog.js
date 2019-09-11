@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, likeBlog, deleteBlog }) => {
+const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
   const [blogVisible, setBlogVisible] = useState(false)
 
   const blogStyle = {
@@ -14,8 +14,6 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const hideWhenVisible = { display: blogVisible ? 'none' : '' }
   const showWhenVisible = { display: blogVisible ? '' : 'none' }
 
-  const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
-
   const deleteButton = () => {
     if (user.username === blog.user.username) {
       return <button onClick={deleteBlog}>delete</button>
@@ -24,10 +22,10 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideWhenVisible} onClick={() => setBlogVisible(true)}>
+      <div className='titleAndAuthor' style={hideWhenVisible} onClick={() => setBlogVisible(true)}>
         {blog.title} {blog.author}
       </div>
-      <div style={showWhenVisible} onClick={() => setBlogVisible(false)}>
+      <div className='allInfo' style={showWhenVisible} onClick={() => setBlogVisible(false)}>
         <p>{blog.title} {blog.author}</p>
         <p>{blog.url}</p>
         <p>{blog.likes} likes <button onClick={likeBlog}>like</button></p>
