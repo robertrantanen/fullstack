@@ -22,10 +22,10 @@ const Notification = ({ message }) => {
 
 function App() {
   const [blogs, setBlogs] = useState([])
-  const [newTitle, setTitle] = useState('')
-  const [newAuthor, setAuthor] = useState('')
-  const [newUrl, setUrl] = useState('')
-  const usernameField = useField('username')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
+  const usernameField = useField('text')
   const passwordField = useField('password')
   const [user, setUser] = useState(null)
   const [Message, setMessage] = useState(null)
@@ -53,18 +53,18 @@ function App() {
   const addBlog = (event) => {
     event.preventDefault()
     const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
+      title: title.value,
+      author: author.value,
+      url: url.value,
     }
 
     blogService
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setTitle('')
-        setAuthor('')
-        setUrl('')
+        title.reset()
+        author.reset()
+        url.reset()
       })
 
     setMessage(
@@ -75,17 +75,6 @@ function App() {
     }, 5000)
   }
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
-  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -104,8 +93,8 @@ function App() {
       )
       blogService.setToken(user.token)
       setUser(user)
-      //setUsername('')
-      //setPassword('')
+      usernameField.reset()
+      passwordField.reset()
     } catch (exception) {
       setMessage('wrong username or password')
       setTimeout(() => {
@@ -126,12 +115,9 @@ function App() {
         <div style={showWhenVisible}>
           <BlogForm
             addBlog={(event) => addBlog(event)}
-            newTitle={newTitle}
-            newAuthor={newAuthor}
-            newUrl={newUrl}
-            handleTitleChange={(event) => handleTitleChange(event)}
-            handleAuthorChange={(event) => handleAuthorChange(event)}
-            handleUrlChange={(event) => handleUrlChange(event)}
+            title={title}
+            author={author}
+            url={url}
           />
           <button onClick={() => setCreateVisible(false)}>cancel</button>
         </div>
