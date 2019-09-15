@@ -115,9 +115,9 @@ function App() {
         <div style={showWhenVisible}>
           <BlogForm
             addBlog={(event) => addBlog(event)}
-            title={title}
-            author={author}
-            url={url}
+            title={withoutReset(title)}
+            author={withoutReset(author)}
+            url={withoutReset(url)}
           />
           <button onClick={() => setCreateVisible(false)}>cancel</button>
         </div>
@@ -161,13 +161,18 @@ function App() {
     }, 5000)
   }
 
+  const withoutReset = (hook) => {
+    const {reset, ...restOfHook} = hook
+    return restOfHook
+  }
+
 
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
         <Notification message={Message}/>
-        <LoginForm handleLogin={handleLogin} username={usernameField} password={passwordField}/>
+        <LoginForm handleLogin={handleLogin} username={withoutReset(usernameField)} password={withoutReset(passwordField)}/>
       </div>
     )
   }
