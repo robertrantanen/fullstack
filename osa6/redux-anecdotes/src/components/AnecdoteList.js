@@ -4,9 +4,10 @@ import Anecdote from './Anecdote'
 import { vote } from '../reducers/anecdoteReducer'
 
 const Anecdotes = ({ store }) => {
+  const byVotes = (b1, b2) => b2.votes - b1.votes
   return (
     <ul>
-      {store.getState().map(anecdote =>
+      {store.getState().sort(byVotes).map(anecdote =>
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
