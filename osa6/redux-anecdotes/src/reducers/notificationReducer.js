@@ -1,4 +1,4 @@
-const notificationReducer = (state = 'MESSAGE', action) => {
+const notificationReducer = (state = '', action) => {
     switch (action.type) {
       case 'SET_MESSAGE':
         return action.message
@@ -7,7 +7,7 @@ const notificationReducer = (state = 'MESSAGE', action) => {
     }
   }
 
-export const notificationChange = message => {
+export const setMessage = message => {
   return {
     type: 'SET_MESSAGE',
     message,
