@@ -7,7 +7,7 @@ const Anecdotes = ({ store }) => {
   const byVotes = (b1, b2) => b2.votes - b1.votes
   return (
     <ul>
-      {store.getState().sort(byVotes).map(anecdote =>
+      {store.getState().anecdotes.sort(byVotes).map(anecdote =>
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
