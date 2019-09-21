@@ -14,9 +14,10 @@ const Anecdotes = ({ store }) => {
     }, 5000)
   }
   const byVotes = (b1, b2) => b2.votes - b1.votes
+  const filteredAnecdotes = store.getState().anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(store.getState().filter.toLowerCase()))
   return (
     <ul>
-      {store.getState().anecdotes.sort(byVotes).map(anecdote =>
+      {filteredAnecdotes.sort(byVotes).map(anecdote =>
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
