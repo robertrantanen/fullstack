@@ -14,11 +14,10 @@ const Anecdotes = (props) => {
       props.setMessage('')
     }, 5000)
   }
-  const byVotes = (b1, b2) => b2.votes - b1.votes
-  const filteredAnecdotes = props.anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(props.filter.toLowerCase()))
+
   return (
     <ul>
-      {filteredAnecdotes.sort(byVotes).map(anecdote =>
+      {props.visibleAnecdotes.map(anecdote =>
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
@@ -31,11 +30,14 @@ const Anecdotes = (props) => {
   )
 }
 
+const anecdotesToShow = ({ anecdotes, filter }) => {
+  const byVotes = (b1, b2) => b2.votes - b1.votes
+  return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase())).sort(byVotes)
+}
+
 const mapStateToProps = (state) => {
   return {
-    anecdotes: state.anecdotes,
-    message: state.message,
-    filter: state.filter,
+    visibleAnecdotes: anecdotesToShow(state)
   }
 }
 
