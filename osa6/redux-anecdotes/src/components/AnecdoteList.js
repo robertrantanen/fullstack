@@ -1,20 +1,21 @@
  
 import React from 'react'
+import { connect } from 'react-redux'
 import Anecdote from './Anecdote'
 import { vote } from '../reducers/anecdoteReducer'
 import { setMessage } from '../reducers/notificationReducer'
 
-const Anecdotes = ({ store }) => {
+const Anecdotes = (props) => {
 
   const dispatchFunction = (id, content) => {
-    store.dispatch(vote(id))
-    store.dispatch(setMessage("Voted '" + content + "'"))
+    props.vote(id)
+    props.setMessage("Voted '" + content + "'")
     setTimeout(() => {
-      store.dispatch(setMessage(''))
+      props.setMessage('')
     }, 5000)
   }
   const byVotes = (b1, b2) => b2.votes - b1.votes
-  const filteredAnecdotes = store.getState().anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(store.getState().filter.toLowerCase()))
+  const filteredAnecdotes = props.anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(props.filter.toLowerCase()))
   return (
     <ul>
       {filteredAnecdotes.sort(byVotes).map(anecdote =>
@@ -30,4 +31,18 @@ const Anecdotes = ({ store }) => {
   )
 }
 
-export default Anecdotes
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    message: state.message,
+    filter: state.filter,
+  }
+}
+
+const mapDispatchToProps = {
+  vote,
+  setMessage
+}
+
+const ConnectedAnecdotes = connect(mapStateToProps, mapDispatchToProps)(Anecdotes)
+export default ConnectedAnecdotes
