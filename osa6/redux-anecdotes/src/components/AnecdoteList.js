@@ -7,9 +7,9 @@ import { setMessage } from '../reducers/notificationReducer'
 
 const Anecdotes = (props) => {
 
-  const dispatchFunction = (id, content) => {
-    props.vote(id)
-    props.setMessage("Voted '" + content + "'")
+  const dispatchFunction = (anecdote) => {
+    props.vote(anecdote)
+    props.setMessage("Voted '" + anecdote.content + "'")
     setTimeout(() => {
       props.setMessage('')
     }, 5000)
@@ -22,7 +22,7 @@ const Anecdotes = (props) => {
           key={anecdote.id}
           anecdote={anecdote}
           handleClick={() =>
-            dispatchFunction(anecdote.id, anecdote.content)
+            dispatchFunction(anecdote)
           }
         />
       )}
