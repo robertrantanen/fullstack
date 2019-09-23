@@ -9,10 +9,8 @@ const Anecdotes = (props) => {
 
   const dispatchFunction = (anecdote) => {
     props.vote(anecdote)
-    props.setMessage("Voted '" + anecdote.content + "'")
-    setTimeout(() => {
-      props.setMessage('')
-    }, 5000)
+    props.setMessage("Voted '" + anecdote.content + "'", 5)
+
   }
 
   return (
