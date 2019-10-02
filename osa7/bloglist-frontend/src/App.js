@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
+import userService from './services/users'
 import loginService from './services/login'
 import './index.css'
 import  { useField } from './hooks'
@@ -27,6 +28,7 @@ const Notification = ({ message }) => {
 
 function App() {
   const [blogs, setBlogs] = useState([])
+  const [users, setUsers] = useState([])
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
@@ -43,6 +45,14 @@ function App() {
         setBlogs(initialBlogs.sort(function(a, b) {
           return b.likes - a.likes
         }))
+      })
+  }, [])
+
+  useEffect(() => {
+    userService
+      .getAll()
+      .then(initialUsers => {
+        setUsers(initialUsers)
       })
   }, [])
 
@@ -198,10 +208,17 @@ function App() {
     )
   }
 
-  const users = () => {
+  const usersBlogs = (user) => {
+    return blogs.filter(blog => blog.user.username === user.username)
+  }
+
+  const userList = () => {
     return(
     <div>
       <h2>users</h2>
+      <ul>
+        {users.map(user => <li key={user.username}>{user.name}: {usersBlogs(user).length} blogs</li>)}  
+      </ul>
     </div>
     )
   }
@@ -220,7 +237,7 @@ function App() {
           <Notification message={Message}/>
 
           <Route exact path="/blogs" render={() => blogList()} />
-          <Route exact path="/users" render={() => users()} />
+          <Route exact path="/users" render={() => userList()} />
 
           
         </div>
