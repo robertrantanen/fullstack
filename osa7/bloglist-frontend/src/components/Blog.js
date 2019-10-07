@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
-  if ( blog === undefined) { 
+  if ( blog === undefined) {
     return null
   }
 

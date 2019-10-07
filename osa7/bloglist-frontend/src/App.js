@@ -97,8 +97,8 @@ function App() {
     event.preventDefault()
 
     const username = usernameField.value
-    const password = passwordField.value    
-    
+    const password = passwordField.value
+
     try {
 
       const user = await loginService.login({
@@ -179,7 +179,7 @@ function App() {
   }
 
   const withoutReset = (hook) => {
-    const {reset, ...restOfHook} = hook
+    const { reset, ...restOfHook } = hook
     return restOfHook
   }
 
@@ -193,8 +193,6 @@ function App() {
       </div>
     )
   }
-
-
 
   const padding = { padding: 5 }
 
@@ -211,12 +209,12 @@ function App() {
 
   const userList = () => {
     return(
-    <div>
-      <h2>users</h2>
-      <ul>
-        {users.map(user => <li key={user.username}><Link to={`/users/${user.id}`}>{user.name}</Link>: {usersBlogs(user).length} blogs</li>)}  
-      </ul>
-    </div>
+      <div>
+        <h2>users</h2>
+        <ul>
+          {users.map(user => <li key={user.username}><Link to={`/users/${user.id}`}>{user.name}</Link>: {usersBlogs(user).length} blogs</li>)}
+        </ul>
+      </div>
     )
   }
 
@@ -232,9 +230,9 @@ function App() {
       <Router>
         <div>
           <div>
-            <Link style={padding} to="/blogs">blogs</Link> 
-            <Link style={padding} to="/users">users</Link> 
-            {user.name} logged in <Link to ={"/"}><button onClick={() => logoutFunction()}>logout</button></Link>
+            <Link style={padding} to="/blogs">blogs</Link>
+            <Link style={padding} to="/users">users</Link>
+            {user.name} logged in <Link to ={'/'}><button onClick={() => logoutFunction()}>logout</button></Link>
           </div>
           <Notification message={Message}/>
           <Route exact path="/blogs" render={() => blogList()} />
@@ -250,7 +248,6 @@ function App() {
     </div>
   )
 
-  
 }
 
 export default App

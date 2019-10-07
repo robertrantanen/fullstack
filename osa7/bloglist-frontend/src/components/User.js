@@ -1,7 +1,7 @@
 import React from 'react'
 
 const User = ({ user, blogs }) => {
-  if (user === undefined) { 
+  if (user === undefined) {
     return null
   }
 
@@ -10,8 +10,8 @@ const User = ({ user, blogs }) => {
       <h2>{user.name}</h2>
       <h3>added blogs</h3>
       <ul>
-        {blogs.map(blog => <li>{blog.title}</li>)}
-      </ul>    
+        {blogs.map(blog => <li key={blog.id}>{blog.title}</li>)}
+      </ul>
     </div>
   )
 }
