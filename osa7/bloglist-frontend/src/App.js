@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import User from './components/User'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
@@ -217,27 +218,33 @@ function App() {
     <div>
       <h2>users</h2>
       <ul>
-        {users.map(user => <li key={user.username}>{user.name}: {usersBlogs(user).length} blogs</li>)}  
+        {users.map(user => <li key={user.username}><Link to={`/users/${user.id}`}>{user.name}</Link>: {usersBlogs(user).length} blogs</li>)}  
       </ul>
     </div>
     )
   }
 
+  const userById = (id) =>
+    users.find(a => a.id === id)
+
   return (
     <div>
-      <h1>Blogs</h1>
+      <h1>Bloglist</h1>
       <Router>
         <div>
           <div>
             <Link style={padding} to="/blogs">blogs</Link> 
             <Link style={padding} to="/users">users</Link> 
-            {user.name} logged in <button onClick={() => logoutFunction()}>logout</button>
+            {user.name} logged in <Link to ={"/"}><button onClick={() => logoutFunction()}>logout</button></Link>
           </div>
 
           <Notification message={Message}/>
 
           <Route exact path="/blogs" render={() => blogList()} />
           <Route exact path="/users" render={() => userList()} />
+          <Route exact path="/users/:id" render={({ match }) =>
+            <User user={userById(match.params.id)} blogs={usersBlogs(userById(match.params.id))} />}
+          />
 
           
         </div>
