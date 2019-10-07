@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Blogs from './components/Blogs'
 import User from './components/User'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -10,7 +11,7 @@ import './index.css'
 import  { useField } from './hooks'
 import {
   BrowserRouter as Router,
-  Route, Link, Redirect, withRouter
+  Route, Link
 } from 'react-router-dom'
 
 const Notification = ({ message }) => {
@@ -197,15 +198,10 @@ function App() {
 
   const padding = { padding: 5 }
 
+
   const blogList = () => {
     return (
-      <div>
-        <h2>blogs</h2>
-        {blogForm()}
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} likeBlog={() => likeBlog(blog.id)} deleteBlog={() => deleteBlog(blog.id)} />
-        )}
-      </div>
+      <Blogs blogs = {blogs} blogForm={blogForm}/>
     )
   }
 
@@ -227,6 +223,9 @@ function App() {
   const userById = (id) =>
     users.find(a => a.id === id)
 
+  const blogById = (id) =>
+    blogs.find(a => a.id === id)
+
   return (
     <div>
       <h1>Bloglist</h1>
@@ -237,34 +236,19 @@ function App() {
             <Link style={padding} to="/users">users</Link> 
             {user.name} logged in <Link to ={"/"}><button onClick={() => logoutFunction()}>logout</button></Link>
           </div>
-
           <Notification message={Message}/>
-
           <Route exact path="/blogs" render={() => blogList()} />
           <Route exact path="/users" render={() => userList()} />
           <Route exact path="/users/:id" render={({ match }) =>
             <User user={userById(match.params.id)} blogs={usersBlogs(userById(match.params.id))} />}
           />
-
-          
+          <Route exact path="/blogs/:id" render={({ match }) =>
+            <Blog blog={blogById(match.params.id)} user={user} likeBlog={() => likeBlog(match.params.id)} deleteBlog={() => deleteBlog(match.params.id)} />}
+          />
         </div>
       </Router>
-
     </div>
   )
-/*
-  return (
-    <div>
-      <h2>blogs</h2>
-      <Notification message={Message}/>
-      <p>{user.name} logged in <button onClick={() => logoutFunction()}>logout</button></p>
-      {blogForm()}
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} likeBlog={() => likeBlog(blog.id)} deleteBlog={() => deleteBlog(blog.id)} />
-      )}
-    </div>
-  )
-  */
 
   
 }
